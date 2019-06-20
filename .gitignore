@@ -47,12 +47,6 @@ vcs.xml
 # Local configuration file (sdk path, etc)
 local.properties
 
-# Gradle files
-.gradle/
-
-# User-specific configurations
-*.iml
-
 # OS-specific files
 .DS_Store
 .DS_Store?
