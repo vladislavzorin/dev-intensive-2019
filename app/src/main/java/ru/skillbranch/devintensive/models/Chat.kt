@@ -5,5 +5,4 @@ class Chat(
     val members: MutableList<User> = mutableListOf(),
     val messages: MutableList<BaseMessage> = mutableListOf()
 ) {
-
 }
