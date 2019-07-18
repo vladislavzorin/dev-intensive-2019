@@ -1,71 +1,88 @@
 package ru.skillbranch.devintensive.models
 
-import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
-data class User (
-    val id:String,
-    var firstName: String?,
-    var lastName: String?,
-    var avatar:String?,
-    var rating:Int = 0,
-    var respect: Int = 0,
-    var lastVisit: Date? = null,
-    var isOnline:Boolean = false
-    ){
+data class User(
+        val id: String,
+        var firstName: String?,
+        var lastName: String?,
+        var avatar: String?,
+        var rating: Int = 0,
+        var respect: Int = 0,
+        var lastVisit: Date? = Date(),
+        var isOnline: Boolean = false) {
 
-
-    constructor(id:String, firstName: String?, lastName: String?) : this(
-        id = id,
-        firstName = firstName,
-        lastName = lastName,
-        avatar = null)
-
-    constructor(id:String) :  this(id, "John", "Doe")
-
-    init {
-
-        println("It's Alive!!! \n" +
-                "${if(lastName === "Doe") "His name id $firstName $lastName" else "And his name is $firstName $lastName"}\n")
-    }
+    constructor(id: String, firstName: String?, lastName: String?) : this(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
+            avatar = null
+    )
 
     companion object Factory {
-        private var lastId : Int = -1
-        fun makeUser(fullName:String?) : User{
-            lastId++
+        fun makeUser(fullName: String): User {
 
-            val (firstName,lastName) = Utils.parseFullName(fullName)
+            val nameFragments: List<String> = fullName.split(" ")
 
-            return User(id = "$lastId", firstName = firstName, lastName = lastName)
+            return User(
+                    UUID.randomUUID().toString(),
+                    nameFragments.getOrNull(0) ?: "",
+                    nameFragments.getOrNull(1) ?: ""
+            )
         }
     }
 
-    class Builder {
-        var id:String = "0"
+    class Builder() {
+        var id: String = UUID.randomUUID().toString()
         var firstName: String? = null
         var lastName: String? = null
-        var avatar:String? = null
-        var rating:Int = 0
+        var avatar: String? = null
+        var rating: Int = 0
         var respect: Int = 0
-        var lastVisit: Date? = null
-        var isOnline:Boolean = false
+        var lastVisit: Date? = Date()
+        var isOnline: Boolean = false
 
-        fun id(id:String) = apply{this.id = id}
+        fun id(id: String): Builder {
+            this.id = id
+            return this
+        }
 
-        fun firstName(firstName: String?) = apply{this.firstName = firstName}
+        fun firstName(firstName: String?): Builder {
+            this.firstName = firstName
+            return this
+        }
 
-        fun lastName(lastName: String?) = apply{this.lastName = lastName}
+        fun lastName(lastName: String?): Builder {
+            this.lastName = lastName
+            return this
+        }
 
-        fun avatar(avatar: String?) = apply {this.avatar = avatar}
+        fun avatar(avatar: String?): Builder {
+            this.avatar = avatar
+            return this
+        }
 
-        fun rating(rating: Int) = apply {this.rating = rating}
+        fun rating(rating: Int): Builder {
+            this.rating = rating
+            return this
+        }
 
-        fun respect(respect: Int) = apply {this.respect = respect}
+        fun respect(respect: Int): Builder {
+            this.respect = respect
+            return this
+        }
 
-        fun lastVisit(lastVisit: Date?) = apply {this.lastVisit = lastVisit}
+        fun lastVisit(lastVisit: Date?): Builder {
+            this.lastVisit = lastVisit
+            return this
+        }
 
-        fun isOnline(isOnline: Boolean) = apply {this.isOnline = isOnline}
+        fun isOnline(isOnline: Boolean): Builder {
+            this.isOnline = isOnline
+            return this
+        }
 
-        fun build(): User = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
+        fun build() = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
+
     }
 }
